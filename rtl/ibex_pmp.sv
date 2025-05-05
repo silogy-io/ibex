@@ -127,17 +127,14 @@ module ibex_pmp #(
 
   // Access fault determination / prioritization
   function automatic logic access_fault_check (logic                     csr_pmp_mseccfg_mmwp,
-                                               logic                     csr_pmp_mseccfg_mml,
-                                               ibex_pkg::pmp_req_e       pmp_req_type,
                                                logic [PMPNumRegions-1:0] match_all,
                                                ibex_pkg::priv_lvl_e      priv_mode,
                                                logic [PMPNumRegions-1:0] final_perm_check);
 
 
     // When MSECCFG.MMWP is set default deny always, otherwise allow for M-mode, deny for other
-    // modes. Also deny unmatched for M-mode whe MSECCFG.MML is set and request type is EXEC.
-    logic access_fail = csr_pmp_mseccfg_mmwp | (priv_mode != PRIV_LVL_M) |
-                        (csr_pmp_mseccfg_mml && (pmp_req_type == PMP_ACC_EXEC));
+    // modes
+    logic access_fail = csr_pmp_mseccfg_mmwp | (priv_mode != PRIV_LVL_M);
     logic matched = 1'b0;
 
     // PMP entries are statically prioritized, from 0 to N-1
@@ -244,8 +241,6 @@ module ibex_pmp #(
     // No error is raised if the access is allowed as Debug Module access (first term).
     assign pmp_req_err_o[c] = ~debug_mode_allowed_access[c] &
                               access_fault_check(csr_pmp_mseccfg_i.mmwp,
-                                                 csr_pmp_mseccfg_i.mml,
-                                                 pmp_req_type_i[c],
                                                  region_match_all[c],
                                                  priv_mode_i[c],
                                                  region_perm_check[c]);

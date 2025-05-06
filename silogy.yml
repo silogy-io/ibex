@@ -6,3 +6,5 @@ test_lists:
     path: ./minimal_regression.otl.yaml
   - name: known_failing
     path: ./known_failing.otl.yaml
+  - name: load_after_store_hazard
+    path: ./load_after_store_hazard.otl.yaml

@@ -1,0 +1,19 @@
+- name: pip_install_requirements
+  rule: raw_bash_build
+  rule_args:
+    cmds:
+      - pip3 install -r python-requirements.txt
+- name: riscv_load_store_hazard_instr_stream
+  rule: raw_bash
+  rule_args:
+    cmds:
+      - "./run_test.sh riscv_load_store_hazard_instr_stream"
+    deps:
+      - pip_install_requirements
+- name: riscv_mem_region_stress_test
+  rule: raw_bash
+  rule_args:
+    cmds:
+      - "./run_test.sh riscv_mem_region_stress_test"
+    deps:
+      - pip_install_requirements

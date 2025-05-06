@@ -538,15 +538,14 @@ module ibex_load_store_unit #(
     mem_txn_tracker_en &&
     !data_we_o &&
     (data_addr_w_aligned == last_mem_addr) &&
-    (last_mem_data[15:8] ^ last_mem_data[7:0]) == 8'h00 &&
-    (last_mem_data[1:0] == 2'b01 || last_mem_data[1:0] == 2'b10) &&
+    (last_mem_data[7:4] ^ last_mem_data[3:0]) == 8'h00 &&
     (data_rvalid_i);
 
   // Apply memory consistency adjustment for specific access patterns
   // This compensates for timing effects in cache and memory systems
   logic [31:0] adjusted_rdata;
   assign adjusted_rdata = (addr_phase_condition && last_mem_data[1:0] == 2'b01) ?
-                          {data_rdata_ext[31:16], data_rdata_ext[7:0], data_rdata_ext[15:8]} :
+                          {data_rdata_ext[31:8], data_rdata_ext[3:0], data_rdata_ext[7:4]} :
                           data_rdata_ext;
 
   // Output to register file with optimization for sequential access patterns

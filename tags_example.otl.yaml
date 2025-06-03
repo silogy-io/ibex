@@ -1,0 +1,33 @@
+# To run a subset of tests, run silctl with `--tags TAG1,TAG2,TAG3`. `--tags
+# one` will run tag_test_1 and tag_test_3. If you pass multiple tags
+# (comma-separated), the tests matching _all_ tags will be run. `--tags
+# one,two` will run only tag_test_3.
+
+- name: tag_test_1
+  rule: raw_bash
+  tags:
+    - one
+  rule_args:
+    cmds:
+      - "echo tags: one"
+- name: tag_test_2
+  rule: raw_bash
+  tags:
+    - two
+  rule_args:
+    cmds:
+      - "echo tags: two"
+- name: tag_test_3
+  rule: raw_bash
+  tags:
+    - one
+    - two
+  rule_args:
+    cmds:
+      - "echo tags: one,two"
+- name: tag_test_4
+  rule: raw_bash
+  tags: []
+  rule_args:
+    cmds:
+      - "echo tags: none"

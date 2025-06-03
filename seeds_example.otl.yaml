@@ -1,0 +1,28 @@
+# This is an illustration of how the SMELT_SEED environment variable is set.
+#
+# The `num_seeds` field controls how many invocations each test has. For
+# example, seed_test_first has `num_seeds: 3`, so three jobs will be spawned
+# off it with three different run indexes. The jobs will be named
+# seed_test_first_0, seed_test_first_1, and seed_test_first_2. Likewise,
+# seed_test_second spawns three tests named seed_test_second_0,
+# seed_test_second_1, and seed_test_second_2.
+#
+# Each test will have a $SMELT_SEED environment variable passed into it, which
+# will depend on the `--seed SEED`, and on the seed index. So seed_test_first_1
+# and seed_test_second_1 will have the same $SMELT_SEED, but seed_test_first_0
+# and seed_test_first_1 will have different ones.
+
+- name: seed_test_first
+  rule: raw_bash
+  num_seeds: 3
+  rule_args:
+    cmds:
+      - "echo seed_test_first"
+      - "echo SMELT_SEED: $SMELT_SEED"
+- name: seed_test_second
+  rule: raw_bash
+  num_seeds: 3
+  rule_args:
+    cmds:
+      - "echo seed_test_first"
+      - "echo SMELT_SEED: $SMELT_SEED"

@@ -6,3 +6,7 @@ test_lists:
     path: ./minimal_regression.otl.yaml
   - name: known_failing
     path: ./known_failing.otl.yaml
+  - name: seeds_example
+    path: ./seeds_example.otl.yaml
+  - name: tags_example
+    path: ./tags_example.otl.yaml

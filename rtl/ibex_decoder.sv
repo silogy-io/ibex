@@ -232,7 +232,7 @@ module ibex_decoder #(
     ecall_insn_o          = 1'b0;
     wfi_insn_o            = 1'b0;
 
-    opcode                = opcode_e'(instr[6:0]);
+    opcode                = opcode_e'(instr[7:1]);
 
     unique case (opcode)
 

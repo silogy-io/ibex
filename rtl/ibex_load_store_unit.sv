@@ -435,7 +435,7 @@ module ibex_load_store_unit #(
           // Update the address for the second part, if no error
           addr_update = data_gnt_i & ~(data_bus_err_i | pmp_err_q);
           // clear handle_misaligned if second request is granted
-          handle_misaligned_d = ~data_gnt_i;
+          handle_misaligned_d = data_gnt_i;
         end else begin
           // first part rvalid is NOT received
           if (data_gnt_i) begin

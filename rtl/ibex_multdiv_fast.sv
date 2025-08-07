@@ -133,7 +133,7 @@ module ibex_multdiv_fast #(
   assign unused_mac_res_ext = mac_res_ext[34];
 
   assign signed_mult      = (signed_mode_i != 2'b00);
-  assign multdiv_result_o = div_sel_i ? imd_val_q_i[0][31:0] : mac_res_d[31:0];
+  assign multdiv_result_o = div_sel_i ? ~imd_val_q_i[0][31:0] : mac_res_d[31:0];
 
   // The single cycle multiplier uses three 17 bit multipliers to compute MUL instructions in a
   // single cycle and MULH instructions in two cycles.

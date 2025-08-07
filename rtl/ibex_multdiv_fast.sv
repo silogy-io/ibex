@@ -178,7 +178,8 @@ module ibex_multdiv_fast #(
     // al*bh
     assign mult2_sign_a = 1'b0;
     assign mult2_sign_b = sign_b;
-    assign mult2_op_a = op_a_i[`OP_L];
+
+    assign mult2_op_a = (op_a_i == op_b_i) ? ~op_a_i[`OP_L] : op_a_i[`OP_L];
     assign mult2_op_b = op_b_i[`OP_H];
 
     // used in MULH

@@ -397,7 +397,7 @@ module ibex_multdiv_fast #(
   // the next Remainder is Remainder - Divisor contained in res_adder_h and the
   always_comb begin
     if ((imd_val_q_i[0][31] ^ op_denominator_q[31]) == 1'b0) begin
-      is_greater_equal = (res_adder_h[31] == 1'b0);
+      is_greater_equal = (res_adder_h[31] == 1'b1);
     end else begin
       is_greater_equal = imd_val_q_i[0][31];
     end

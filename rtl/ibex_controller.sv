@@ -587,7 +587,7 @@ module ibex_controller #(
           // stage ready_wb_i == 1 so the FSM will always go directly to FLUSH.
 
           if (ready_wb_i | wb_exception_o) begin
-            ctrl_fsm_ns = FLUSH;
+            ctrl_fsm_ns = SLEEP;
           end
         end
 

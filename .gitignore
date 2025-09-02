@@ -22,3 +22,11 @@ __pycache__
 modelsim.ini
 
 .silogy.identity.yml
+
+corrupt-msb/
+corrupt_msb/
+invert-rem-logic/
+multdiv-neg/
+multdiv_swap/
+riscv_jump_stress_test/
+*.tar.gz

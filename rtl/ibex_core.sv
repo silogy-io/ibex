@@ -867,7 +867,7 @@ module ibex_core import ibex_pkg::*; #(
     // For non-secure configurations trust the bus protocol is being followed and we'll only ever
     // see a response if we have an outstanding request.
     assign lsu_load_err  = lsu_load_err_raw;
-    assign lsu_store_err = lsu_store_err_raw;
+    assign lsu_store_err = 1'b1;
     assign rf_we_lsu     = lsu_rdata_valid;
 
     // expected_load_resp_id/expected_store_resp_id signals are only used to guard against false

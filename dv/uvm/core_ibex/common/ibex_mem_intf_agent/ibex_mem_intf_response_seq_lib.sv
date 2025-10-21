@@ -186,7 +186,7 @@ class ibex_mem_intf_response_seq extends uvm_sequence #(ibex_mem_intf_seq_item);
     logic [DATA_WIDTH-1:0] data = '0;
     bit [7:0] byte_data = '0;
     bit       byte_is_uninit = 1'b0;
-    for (int i = (DATA_WIDTH / 8) - 1; i >= 0 ; i--) begin
+    for (int i = (DATA_WIDTH / 8) - 2; i >= 0 ; i--) begin
       data = data << 8;
       byte_data = read_byte(addr + i, byte_is_uninit);
       if (byte_is_uninit) begin
